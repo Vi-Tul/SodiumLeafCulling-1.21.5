@@ -1,8 +1,5 @@
 package toni.sodiumleafculling.mixins;
 
-import com.llamalad7.mixinextras.sugar.Local;
-import net.caffeinemc.mods.sodium.client.SodiumClientMod;
-import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.BlockOcclusionCache;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -16,6 +13,14 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import toni.sodiumleafculling.LeafCulling;
 import toni.sodiumleafculling.LeafCullingQuality;
 import toni.sodiumleafculling.PerformanceSettingsAccessor;
+
+#if AFTER_21_1
+import net.caffeinemc.mods.sodium.client.SodiumClientMod;
+import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.BlockOcclusionCache;
+#else
+import me.jellysquid.mods.sodium.client.SodiumClientMod;
+import me.jellysquid.mods.sodium.client.render.chunk.compile.pipeline.BlockOcclusionCache;
+#endif
 
 @Mixin(value = BlockOcclusionCache.class, priority = 100)
 public class BlockOcclusionCacheMixin {

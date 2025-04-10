@@ -17,9 +17,14 @@
 	"mixins": [
 		"mixins.${id}.json"
 	],
+	"entrypoints" : {
+		"mixinsquared": [
+			"${group}.${namespace}.LeafCullingMixinCanceller"
+		]
+	},
 	"depends": {
-		"fabricloader": ">=0.15.0",
 		"minecraft": "${mc}",
+		"fabricloader": ">=0.15.0",
 		"fabric-api": "*"
 	},
 	"accessWidener": "${id}.accesswidener"

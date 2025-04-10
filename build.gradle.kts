@@ -7,15 +7,29 @@ val settings = object : TxniTemplateSettings {
 		}
 
 		override fun addFabric(deps: DependencyHandlerScope) {
-			deps.modImplementation(modrinth("sodium", "mc1.21-0.6.0-beta.1-fabric"))
+			deps.include(deps.implementation(deps.annotationProcessor("com.bawnorton.mixinsquared:mixinsquared-fabric:0.2.0-beta.6")!!)!!)
+
+			if (mcVersion == "1.21.1")
+			{
+				deps.modImplementation(modrinth("sodium", "mc1.21.1-0.6.13-fabric"))
+				deps.runtimeOnly(modrinth("moreculling", "0.27.1"))
+			}
+			else
+			{
+				deps.modImplementation(modrinth("sodium", "mc1.20.1-0.5.11"))
+				deps.runtimeOnly(modrinth("moreculling", "0.24.0"))
+				deps.modImplementation(modrinth("indium", "1.0.34+mc1.20.1"))
+			}
 		}
 
 		override fun addForge(deps: DependencyHandlerScope) {
-
+			deps.modImplementation(modrinth("embeddium", "0.3.31+mc1.20.1"))
+			deps.compileOnly(deps.annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5")!!)
+			deps.include(deps.implementation("io.github.llamalad7:mixinextras-forge:0.3.5")!!)
 		}
 
 		override fun addNeo(deps: DependencyHandlerScope) {
-			deps.implementation(modrinth("sodium", "mc1.21-0.6.0-beta.1-neoforge"))
+			deps.implementation(modrinth("sodium", "mc1.21.1-0.6.13-neoforge"))
 
 			deps.compileOnly("org.sinytra.forgified-fabric-api:fabric-api-base:0.4.42+d1308dedd1")
 			deps.compileOnly("org.sinytra.forgified-fabric-api:fabric-renderer-api-v1:3.4.0+acb05a39d1")
@@ -29,9 +43,14 @@ val settings = object : TxniTemplateSettings {
 		override fun addShared(deps: DependencyContainer) {
 			if (isFabric) {
 				deps.requires("fabric-api")
+				if (mcVersion == "1.20.1")
+					deps.requires("indium") 
 			}
 
-			deps.requires("sodium")
+			if (isForge)
+				deps.requires("embeddium")
+			else
+				deps.requires("sodium")
 		}
 
 		override fun addCurseForge(deps: DependencyContainer) {
@@ -106,6 +125,7 @@ repositories {
 	maven("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/")
 	maven("https://maven.parchmentmc.org")
 	maven("https://maven.su5ed.dev/releases")
+	maven("https://maven.bawnorton.com/releases")
 }
 
 dependencies {
@@ -167,7 +187,7 @@ loom {
 
 	runConfigs["client"].apply {
 		ideConfigGenerated(true)
-		vmArgs("-Dmixin.debug.export=true")
+		vmArgs("-Dmixin.debug.export=true", "-Dsodium.checks.issue2561=false")
 		programArgs("--username=nthxny") // Mom look I'm in the codebase!
 		runDir = "../../run/${stonecutter.current.project}/"
 	}

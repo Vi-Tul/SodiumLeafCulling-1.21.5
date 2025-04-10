@@ -1,2 +1,1 @@
-## Changelog
-- Initial release
+Fixed crash with latest Sodium

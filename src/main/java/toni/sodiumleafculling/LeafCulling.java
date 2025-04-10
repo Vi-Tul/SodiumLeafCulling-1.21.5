@@ -1,11 +1,15 @@
 package toni.sodiumleafculling;
 
-import net.caffeinemc.mods.sodium.client.SodiumClientMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.LeavesBlock;
+#if AFTER_21_1
+import net.caffeinemc.mods.sodium.client.SodiumClientMod;
+#else
+import me.jellysquid.mods.sodium.client.SodiumClientMod;
+#endif
 
 public class LeafCulling {
     private static final Direction[] VALUES = Direction.values();

@@ -9,6 +9,10 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 #endif
 
+#if FORGE
+import net.minecraftforge.fml.common.Mod;
+#endif
+
 #if FORGELIKE
 @Mod("sodiumleafculling")
 #endif
